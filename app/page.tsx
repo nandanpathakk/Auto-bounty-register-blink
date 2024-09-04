@@ -5,28 +5,34 @@ import axios from "axios";
 import { BountyCardprops } from "@/components/BountyCard";
 
 export default function Home() {
-
   const [bounties, setBounties] = useState<BountyCardprops[]>([]);
 
   useEffect(() => {
     axios.get("http://localhost:3000/api/getpost")
       .then(res => {
-        setBounties(res.data)
+        setBounties(res.data);
       })
       .catch((error) => {
-        console.log(error)
-      })
-  }, [])
+        console.log(error);
+      });
+  }, []);
 
-  return <div>
-    {
-      bounties.map((bounty) => 
-      <BountyCard 
-        title={bounty.title} 
-        description={bounty.description} 
-        amount={bounty.amount} 
-        deadline={bounty.deadline}
-        link={bounty.link} />)
-    }
-  </div>
+  return (
+    <div>
+      <h2 className="text-3xl font-bold tracking-wide my-6 mx-7 pb-4 text-gray-800 montserrat border-b-2">
+        Bounties
+      </h2>
+      {
+        bounties.map((bounty, index) => (
+          <BountyCard 
+            title={bounty.title} 
+            description={bounty.description} 
+            amount={bounty.amount} 
+            deadline={bounty.deadline} 
+            link={bounty.link} 
+          />
+        ))
+      }
+    </div>
+  );
 }

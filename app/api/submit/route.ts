@@ -27,7 +27,8 @@ export async function GET(request: Request) {
                         {
                             name: "description",
                             label: "Enter description",
-                            required: true
+                            required: true,
+                            type:"textarea"
                         },
                         {
                             name: "amount",
@@ -105,7 +106,7 @@ export async function POST(request: Request) {
             description: data.description,
             amount: parseInt(data.amount, 10),
             deadline: new Date(data.deadline),
-            link: data.link || "No Link Given",
+            link: data.link || "No link given",
         });
 
         console.log("Bounty to be saved:", {
