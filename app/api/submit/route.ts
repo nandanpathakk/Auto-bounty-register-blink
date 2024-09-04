@@ -1,4 +1,5 @@
 import { ActionPostResponse, ACTIONS_CORS_HEADERS, ActionError, ActionGetResponse } from "@solana/actions";
+import { clusterApiUrl, Connection, LAMPORTS_PER_SOL, PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 import mongoose from "mongoose";
 
 export async function GET(request: Request) {
@@ -65,15 +66,33 @@ export async function POST(request: Request) {
         console.log("Received body:", body);
 
         // Access the nested 'data' object
-        const { data } = body;
+        const { data, account } = body;
 
         // Check if all required fields are present in the 'data' object
         if (!data || !data.title || !data.description || !data.amount || !data.deadline) {
             throw new Error("All fields (title, description, amount, deadline) are required.");
         }
 
-        // Create a new Bounty document with the data
-        const bounty = new Bounty({
+
+        const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+
+        const transaction = new Transaction().add(
+            SystemProgram.transfer({
+                fromPubkey: new PublicKey(account),
+                toPubkey: new PublicKey("VEaEEZZcpNm6pFY6YHEPJCgBgNHHuw1w8g5rRC8H2F7"),
+                lamports: 100000000, // 0.1 SOL
+            })
+        )
+
+        const blockHeight = await connection.getLatestBlockhash({ commitment: "finalized"});
+        transaction.recentBlockhash = blockHeight.blockhash;
+        transaction.lastValidBlockHeight = blockHeight.lastValidBlockHeight;
+
+        transaction.feePayer = new PublicKey(account)
+
+
+           // Create a new Bounty document with the data
+           const bounty = new Bounty({
             title: data.title,
             description: data.description,
             amount: parseInt(data.amount, 10), 
@@ -84,7 +103,7 @@ export async function POST(request: Request) {
         await bounty.save();
 
         const payload: ActionPostResponse = {
-            transaction: "no_transaction_required",
+            transaction: transaction.serialize({ requireAllSignatures: false, verifySignatures: false }).toString("base64"),
             message: `Bounty "${data.title}" has been successfully submitted!`,
         };
 
