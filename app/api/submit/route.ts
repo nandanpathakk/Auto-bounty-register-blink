@@ -76,30 +76,27 @@ export async function POST(request: Request) {
         const bounty = new Bounty({
             title: data.title,
             description: data.description,
-            amount: parseInt(data.amount, 10),  // Ensure amount is a number
-            deadline: new Date(data.deadline),  // Convert deadline to a Date object if necessary
+            amount: parseInt(data.amount, 10), 
+            deadline: new Date(data.deadline),  
         });
 
-        // Save the new Bounty document to the database
+        
         await bounty.save();
 
-        // Prepare the response payload
         const payload: ActionPostResponse = {
-            transaction: "",
+            transaction: "no_transaction_required",
             message: `Bounty "${data.title}" has been successfully submitted!`,
         };
 
-        // Return a successful response
         return new Response(JSON.stringify(payload), {
             headers: ACTIONS_CORS_HEADERS,
         });
     } catch (error) {
         console.error("Error:", error);
 
-        // Prepare the error response
+
         let actionError: ActionError = { message: "An unknown error occurred" };
 
-        // Return an error response
         return new Response(JSON.stringify(actionError), {
             status: 400,
             headers: ACTIONS_CORS_HEADERS,
