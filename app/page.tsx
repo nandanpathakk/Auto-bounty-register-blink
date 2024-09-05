@@ -7,20 +7,9 @@ import { BountyCardprops } from "@/components/BountyCard";
 export default function Home() {
   const [bounties, setBounties] = useState<BountyCardprops[]>([]);
 
-  // useEffect(() => {
-  //   // axios.get("https://auto-bounty-register-blink.vercel.app/api/getpost")
-  //   axios.get("http://localhost:3000/api/getpost")
-  //     .then(res => {
-  //       setBounties(res.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
-
   useEffect(() => {
-    const timestamp = new Date().getTime();
-    axios.get(`https://auto-bounty-register-blink.vercel.app/api/getpost?t=${timestamp}`)
+    axios.get("https://auto-bounty-register-blink.vercel.app/api/getpost")
+    // axios.get("http://localhost:3000/api/getpost")
       .then(res => {
         setBounties(res.data);
       })
@@ -28,8 +17,6 @@ export default function Home() {
         console.log(error);
       });
   }, []);
-  
-  
 
   return (
     <div>
