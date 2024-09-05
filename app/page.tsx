@@ -9,8 +9,10 @@ export const fetchCache = 'force-no-store'
 export default function Home() {
   const [bounties, setBounties] = useState<BountyCardprops[]>([]);
 
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL
+
   useEffect(() => {
-    axios.get("https://auto-bounty-register-blink.vercel.app/api/getpost")
+    axios.get(`${apiUrl}/api/getpost`)
       .then(res => {
         setBounties(res.data);
       })
