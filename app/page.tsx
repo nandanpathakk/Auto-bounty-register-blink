@@ -8,7 +8,7 @@ export default function Home() {
   const [bounties, setBounties] = useState<BountyCardprops[]>([]);
 
   useEffect(() => {
-    axios.get("https://auto-bounty-register-blink.vercel.app/")
+    axios.get("https://auto-bounty-register-blink.vercel.app/api/getpostg")
       .then(res => {
         setBounties(res.data);
       })
@@ -25,7 +25,7 @@ export default function Home() {
       {
         bounties.map((bounty, index) => (
           <BountyCard 
-            key={index}
+            key={bounty._id}
             title={bounty.title} 
             description={bounty.description} 
             amount={bounty.amount} 
