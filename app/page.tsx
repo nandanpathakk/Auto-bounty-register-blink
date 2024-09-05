@@ -11,16 +11,33 @@ export default function Home() {
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
-  useEffect(() => {
-    axios.get(`${apiUrl}/api/getpost`)
-      .then(res => {
-        setBounties(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios.get(`${apiUrl}/api/getpost`)
+  //     .then(res => {
+  //       setBounties(res.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
 
+  useEffect(() => {
+    const fetchBounties = async () => {
+      try {
+        const res = await fetch(`${apiUrl}/api/getpost`, { cache: 'no-store' });
+        if (!res.ok) {
+          throw new Error('Failed to fetch bounties');
+        }
+        const data = await res.json();
+        setBounties(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+    fetchBounties();
+  }, []);
+  
 
   return (
     <div>
