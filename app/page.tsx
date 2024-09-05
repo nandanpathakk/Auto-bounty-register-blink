@@ -3,44 +3,30 @@ import { BountyCard } from "@/components/BountyCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { BountyCardprops } from "@/components/BountyCard";
-
-export const fetchCache = 'force-no-store'
+import { unstable_noStore as nostore } from "next/cache";
+import { Suspense } from "react";
 
 export default function Home() {
   const [bounties, setBounties] = useState<BountyCardprops[]>([]);
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
-  // useEffect(() => {
-  //   axios.get(`${apiUrl}/api/getpost`)
-  //     .then(res => {
-  //       setBounties(res.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
+  nostore();
 
   useEffect(() => {
-    const fetchBounties = async () => {
-      try {
-        const res = await fetch(`${apiUrl}/api/getpost`, { cache: 'no-store' });
-        if (!res.ok) {
-          throw new Error('Failed to fetch bounties');
-        }
-        const data = await res.json();
-        setBounties(data);
-      } catch (error) {
+    axios.get(`${apiUrl}/api/getpost`)
+      .then(res => {
+        setBounties(res.data);
+      })
+      .catch((error) => {
         console.log(error);
-      }
-    };
-  
-    fetchBounties();
+      });
   }, []);
-  
+
 
   return (
     <div>
+      <Suspense fallback={null}>
       <h2 className="text-3xl font-bold tracking-wide my-6 mx-7 pb-4 text-gray-800 montserrat border-b-2">
         Bounties
       </h2>
@@ -56,6 +42,7 @@ export default function Home() {
           />
         ))
       }
+      </Suspense>
     </div>
   );
 }
