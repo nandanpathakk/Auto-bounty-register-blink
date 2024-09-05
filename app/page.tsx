@@ -21,7 +21,9 @@ export default function Home() {
 
   async function fetchData() {
     try {
-      const res = await fetch('https://auto-bounty-register-blink.vercel.app/api/getpost', { cache: 'no-store' || 'no-cache' });
+      const res = await fetch('https://auto-bounty-register-blink.vercel.app/api/getpost', {next: {
+          revalidate: 1, // 1 hour
+        }});
       
       // Parse the JSON data
       const data = await res.json();
