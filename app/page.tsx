@@ -19,7 +19,7 @@ export default function Home() {
   // }, []);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/getpost", {
+    axios.get("https://auto-bounty-register-blink.vercel.app/api/getpost", {
       headers: {
         'Cache-Control': 'no-cache',  // Prevent caching
         'Pragma': 'no-cache',
