@@ -21,7 +21,7 @@ export default function Home() {
 
   async function fetchData() {
     try {
-      const res = await fetch('http://localhost:3000/api/getpost', { cache: 'no-store' || 'no-cache' });
+      const res = await fetch('https://auto-bounty-register-blink.vercel.app/api/getpost', { cache: 'no-store' || 'no-cache' });
       
       // Parse the JSON data
       const data = await res.json();
