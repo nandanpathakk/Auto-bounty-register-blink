@@ -8,7 +8,7 @@ export default function Home() {
   const [bounties, setBounties] = useState<BountyCardprops[]>([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/getpost")
+    axios.get("https://auto-bounty-register-blink.vercel.app/api/getpost")
       .then(res => {
         setBounties(res.data);
       })
