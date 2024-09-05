@@ -13,15 +13,35 @@ export default function Home() {
 
   nostore();
 
+  // useEffect(() => {
+  //   axios.get(`${apiUrl}/api/getpost`)
+  //     .then(res => {
+  //       setBounties(res.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
+
   useEffect(() => {
-    axios.get(`${apiUrl}/api/getpost`)
-      .then(res => {
-        setBounties(res.data);
-      })
-      .catch((error) => {
+    const fetchBounties = async () => {
+      try {
+        const res = await fetch(`${apiUrl}/api/getpost`, { next:{
+          revalidate: 3
+        } });
+        if (!res.ok) {
+          throw new Error('Failed to fetch bounties');
+        }
+        const data = await res.json();
+        setBounties(data);
+      } catch (error) {
         console.log(error);
-      });
+      }
+    };
+  
+    fetchBounties();
   }, []);
+  
 
 
   return (
