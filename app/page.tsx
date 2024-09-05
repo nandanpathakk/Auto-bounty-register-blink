@@ -7,15 +7,34 @@ import { BountyCardprops } from "@/components/BountyCard";
 export default function Home() {
   const [bounties, setBounties] = useState<BountyCardprops[]>([]);
 
+  // useEffect(() => {
+  //   axios.get("http://localhost:3000/api/getpost")
+  //     .then(res => {
+  //       setBounties(res.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
+
   useEffect(() => {
-    axios.get("http://localhost:3000/api/getpost")
-      .then(res => {
-        setBounties(res.data);
+    fetch("https://auto-bounty-register-blink.vercel.app/api/getpost", {
+      cache: 'no-store'
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
       })
-      .catch((error) => {
+      .then(data => {
+        setBounties(data);
+      })
+      .catch(error => {
         console.log(error);
       });
   }, []);
+  
 
   return (
     <div>
