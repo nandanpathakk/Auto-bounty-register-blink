@@ -1,7 +1,6 @@
 "use client";
 
 import { MdCurrencyExchange } from "react-icons/md";
-import { GrCurrency } from "react-icons/gr";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -28,7 +27,7 @@ export function BountyCard({ title, description, amount, deadline, link }: Bount
                     alt="Bounty Image"
                     layout="fill"
                     className="object-cover rounded-md"
-                    sizes=""
+                    
                 />
             </div>
             <div className="flex-1 flex flex-col justify-between">

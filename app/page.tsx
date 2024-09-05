@@ -9,54 +9,16 @@ export const fetchCache = 'force-no-store'
 export default function Home() {
   const [bounties, setBounties] = useState<BountyCardprops[]>([]);
 
-  // useEffect(() => {
-  //   axios.get("http://localhost:3000/api/getpost")
-  //     .then(res => {
-  //       setBounties(res.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
-
-  async function fetchData() {
-    try {
-      const res = await fetch('https://auto-bounty-register-blink.vercel.app/api/getpost', {next: {
-          revalidate: 1, // 1 hour
-        }});
-      
-      // Parse the JSON data
-      const data = await res.json();
-  
-      // Set the bounties state with the parsed data
-      setBounties(data);
-      
-      // Log the data after it's been parsed
-      console.log(data);
-    } catch (error) {
-      console.log('Error fetching data:', error);
-    }
-  }  
-
   useEffect(() => {
-    // fetch("https://auto-bounty-register-blink.vercel.app/api/getpost", {
-    //   cache: fetchCache
-    // })
-    //   .then(response => {
-    //     if (!response.ok) {
-    //       throw new Error('Network response was not ok');
-    //     }
-    //     return response.json();
-    //   })
-    //   .then(data => {
-    //     setBounties(data);
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
-    fetchData();
+    axios.get("https://auto-bounty-register-blink.vercel.app/api/getpost")
+      .then(res => {
+        setBounties(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
-  
+
 
   return (
     <div>
