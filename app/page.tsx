@@ -25,6 +25,7 @@ export default function Home() {
       {
         bounties.map((bounty, index) => (
           <BountyCard 
+            key={index}
             title={bounty.title} 
             description={bounty.description} 
             amount={bounty.amount} 
