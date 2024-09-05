@@ -19,19 +19,14 @@ export default function Home() {
   // }, []);
 
   useEffect(() => {
-    axios.get("https://auto-bounty-register-blink.vercel.app/api/getpost", {
-      headers: {
-        'Cache-Control': 'no-cache',  // Prevent caching
-        'Pragma': 'no-cache',
-        'Expires': '0'
-      }
-    })
-    .then(res => {
-      setBounties(res.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+    const timestamp = new Date().getTime();
+    axios.get(`https://auto-bounty-register-blink.vercel.app/api/getpost?t=${timestamp}`)
+      .then(res => {
+        setBounties(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
   
   
