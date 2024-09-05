@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { BountyCardprops } from "@/components/BountyCard";
 
+export const fetchCache = 'force-no-store'
+
 export default function Home() {
   const [bounties, setBounties] = useState<BountyCardprops[]>([]);
 
@@ -17,22 +19,40 @@ export default function Home() {
   //     });
   // }, []);
 
+  async function fetchData() {
+    try {
+      const res = await fetch('http://localhost:3000/api/getpost', { cache: 'no-store' || 'no-cache' });
+      
+      // Parse the JSON data
+      const data = await res.json();
+  
+      // Set the bounties state with the parsed data
+      setBounties(data);
+      
+      // Log the data after it's been parsed
+      console.log(data);
+    } catch (error) {
+      console.log('Error fetching data:', error);
+    }
+  }  
+
   useEffect(() => {
-    fetch("https://auto-bounty-register-blink.vercel.app/api/getpost", {
-      cache: 'no-store'
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-        setBounties(data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    // fetch("https://auto-bounty-register-blink.vercel.app/api/getpost", {
+    //   cache: fetchCache
+    // })
+    //   .then(response => {
+    //     if (!response.ok) {
+    //       throw new Error('Network response was not ok');
+    //     }
+    //     return response.json();
+    //   })
+    //   .then(data => {
+    //     setBounties(data);
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
+    fetchData();
   }, []);
   
 
