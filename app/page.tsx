@@ -29,6 +29,7 @@ export default function Home() {
     
     const fetchBounties = async () => {
       try {
+        const fetchCache = 'force-no-store';
         const res = await fetch(`${apiUrl}/api/getpost`)
         if (!res.ok) {
           throw new Error('Failed to fetch bounties');
