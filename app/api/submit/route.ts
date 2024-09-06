@@ -84,7 +84,7 @@ export async function POST(request: Request) {
         }
 
 
-        const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+        const connection = new Connection(clusterApiUrl("mainnet-beta"), "confirmed");
 
         const transaction = new Transaction().add(
             SystemProgram.transfer({
