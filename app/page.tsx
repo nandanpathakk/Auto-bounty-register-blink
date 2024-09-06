@@ -26,11 +26,10 @@ export default function Home() {
   // }, []);
 
   useEffect(() => {
+    
     const fetchBounties = async () => {
       try {
-        const res = await fetch(`${apiUrl}/api/getpost`, { next:{
-          revalidate: 3
-        } });
+        const res = await fetch(`${apiUrl}/api/getpost`)
         if (!res.ok) {
           throw new Error('Failed to fetch bounties');
         }
