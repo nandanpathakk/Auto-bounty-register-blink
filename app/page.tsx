@@ -30,7 +30,9 @@ export default function Home() {
     const fetchBounties = async () => {
       try {
         const fetchCache = 'force-no-store';
-        const res = await fetch(`${apiUrl}/api/getpost`)
+        const res = await fetch(`${apiUrl}/api/getpost`, {
+          next: {revalidate: 0}
+        })
         if (!res.ok) {
           throw new Error('Failed to fetch bounties');
         }
@@ -50,7 +52,7 @@ export default function Home() {
     <div>
       <Suspense fallback={null}>
       <h2 className="text-3xl font-bold tracking-wide my-6 mx-7 pb-4 text-gray-800 montserrat border-b-2">
-        Bounties
+        bounties
       </h2>
       {
         bounties.map((bounty, index) => (
