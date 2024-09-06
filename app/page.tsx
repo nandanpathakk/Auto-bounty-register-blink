@@ -6,6 +6,8 @@ import { BountyCardprops } from "@/components/BountyCard";
 import { unstable_noStore as nostore } from "next/cache";
 import { Suspense } from "react";
 
+export const fetchCache = 'force-no-store';
+
 export default function Home() {
   const [bounties, setBounties] = useState<BountyCardprops[]>([]);
 

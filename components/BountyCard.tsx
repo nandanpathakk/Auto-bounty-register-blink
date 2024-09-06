@@ -22,7 +22,9 @@ export function BountyCard({ title, description, amount, deadline, link }: Bount
     const [isHovered, setIsHovered] = useState(false);
 
     return (
-        <div className="p-2 md:p-4 bg-white shadow-sm rounded-lg border border-gray-100 flex items-center space-x-2 md:space-x-4 mb-3 md:mb-4 mx-2 md:mx-7">
+        <div className="p-2 md:p-4 bg-white shadow-sm rounded-lg border border-gray-100 flex items-center space-x-2 md:space-x-4 mb-3 md:mb-4 mx-2 md:mx-7 hover:bg-slate-50">
+
+            
             {/* Image */}
             <div className="relative w-16 h-16 md:w-20 md:h-20 flex-shrink-0">
                 <Image
