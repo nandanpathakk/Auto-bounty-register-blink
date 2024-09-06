@@ -52,7 +52,7 @@ export default function Home() {
     <div>
       <Suspense fallback={null}>
       <h2 className="text-3xl font-bold tracking-wide my-6 mx-7 pb-4 text-gray-800 montserrat border-b-2">
-        bounties
+        Bounties
       </h2>
       {
         bounties.map((bounty, index) => (
