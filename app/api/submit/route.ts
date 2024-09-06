@@ -66,6 +66,7 @@ export const OPTIONS = GET;
 // }));
 
 export async function POST(request: Request) {
+    const url = new URL(request.url);
     try {
         // await mongoose.connect(process.env.MONGO_URI as string);
 
