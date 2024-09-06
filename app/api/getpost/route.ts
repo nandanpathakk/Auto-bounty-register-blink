@@ -7,10 +7,10 @@
 //     return NextResponse.json(bounties)
 // }
 
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { Bounty } from "@/db/db";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   const bounties = await Bounty.find();
 
   const response = NextResponse.json(bounties);
@@ -18,3 +18,5 @@ export async function GET(request: NextRequest) {
   
   return response;
 }
+export const revalidate = 0;
+
