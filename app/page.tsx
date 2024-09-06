@@ -5,11 +5,11 @@ import axios from "axios";
 import { BountyCardprops } from "@/components/BountyCard";
 import { unstable_noStore as nostore } from "next/cache";
 import { Suspense } from "react";
-
-export const fetchCache = 'force-no-store';
+import { BountyCardSkeleton } from "@/components/BountyCardSkeleton";
 
 export default function Home() {
   const [bounties, setBounties] = useState<BountyCardprops[]>([]);
+  const [loading, setLoading] = useState(false)
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
@@ -26,46 +26,58 @@ export default function Home() {
   // }, []);
 
   useEffect(() => {
-    
     const fetchBounties = async () => {
       try {
-        const fetchCache = 'force-no-store';
+        setLoading(true)
         const res = await fetch(`${apiUrl}/api/getpost`, {
-          next: {revalidate: 0}
-        })
+          next: {
+            revalidate: 3
+          }
+        });
         if (!res.ok) {
           throw new Error('Failed to fetch bounties');
         }
         const data = await res.json();
         setBounties(data);
+        setLoading(false)
       } catch (error) {
         console.log(error);
       }
     };
-  
+
     fetchBounties();
   }, []);
-  
+
 
 
   return (
     <div>
       <Suspense fallback={null}>
-      <h2 className="text-3xl font-bold tracking-wide my-6 mx-7 pb-4 text-gray-800 montserrat border-b-2">
-        Bounties
-      </h2>
-      {
-        bounties.map((bounty, index) => (
-          <BountyCard 
-            key={bounty._id}
-            title={bounty.title} 
-            description={bounty.description} 
-            amount={bounty.amount} 
-            deadline={bounty.deadline} 
-            link={bounty.link} 
-          />
-        ))
-      }
+        <h2 className="text-3xl font-bold tracking-wide my-6 mx-7 pb-4 text-gray-800 montserrat border-b-2">
+          Bounties
+        </h2>
+        {
+          loading ? (
+            <div>
+              <BountyCardSkeleton />
+              <BountyCardSkeleton />
+              <BountyCardSkeleton />
+            </div>
+
+          ) : (
+            bounties.map((bounty, index) => (
+              <BountyCard
+                key={bounty._id}
+                title={bounty.title}
+                description={bounty.description}
+                amount={bounty.amount}
+                deadline={bounty.deadline}
+                link={bounty.link}
+              />
+            ))
+          )
+
+        }
       </Suspense>
     </div>
   );
