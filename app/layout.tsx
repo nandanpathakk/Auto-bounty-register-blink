@@ -16,7 +16,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      
+      <meta name="dscvr:canvas:version" content="vNext"></meta>
+        <meta name="og:image" content="https://my-canvas.com/preview-image.png"></meta>
+
+        <body className={inter.className}>{children}</body>
     </html>
   );
 }
